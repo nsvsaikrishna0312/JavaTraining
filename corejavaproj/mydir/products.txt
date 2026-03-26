@@ -1,0 +1,6 @@
+11,AC
+12,TV
+13,Fridge
+14,Laptop
+11,TV
+12,CAR
