@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pms-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pms
+  template:
+    metadata:
+      labels:
+        app: pms
+    spec:
+      containers:
+        - name: pms-container
+          image: pms-app:latest
+          imagePullPolicy: Never   
+
+          ports:
+            - containerPort: 8082
+
+          env:
+            
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: pms-config
+                  key: SPRING_DATASOURCE_URL
+
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              valueFrom:
+                configMapKeyRef:
+                  name: pms-config
+                  key: SPRING_JPA_HIBERNATE_DDL_AUTO
+
+            - name: SPRING_JPA_SHOW_SQL
+              valueFrom:
+                configMapKeyRef:
+                  name: pms-config
+                  key: SPRING_JPA_SHOW_SQL
+
+            
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: pms-secret
+                  key: SPRING_DATASOURCE_USERNAME
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pms-secret
+                  key: SPRING_DATASOURCE_PASSWORD

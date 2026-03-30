@@ -33,14 +33,14 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ProductDto getProductById(Long id) {
 		Product prod = productRepository.findById(id)
-				.orElseThrow(() -> new ProductNotFoundException("Product","ProductID", id));
+				.orElseThrow(() -> new ProductNotFoundException("Product", "ProductID", id));
 		return ProductMapper.toDto(prod);
 	}
 
 	@Override
 	public ProductDto updateProduct(Long id, ProductDto prDto) {
 		Product prod = productRepository.findById(id)
-				.orElseThrow(() -> new ProductNotFoundException("Product","ProductID", id));
+				.orElseThrow(() -> new ProductNotFoundException("Product", "ProductID", id));
 
 		prod.setPname(prDto.getPname());
 		prod.setPrice(prDto.getPrice());

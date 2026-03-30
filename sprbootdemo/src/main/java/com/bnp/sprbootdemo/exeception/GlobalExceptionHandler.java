@@ -14,6 +14,6 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ApiResponse> myProductNotFound(ProductNotFoundException ex) {
 		String message = ex.getMessage();
 		ApiResponse apiResponse = new ApiResponse(message, HttpStatus.NOT_FOUND.toString());
-		return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.NOT_FOUND);
+		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
 	}
 }

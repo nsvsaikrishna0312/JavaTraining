@@ -12,7 +12,7 @@ public class ProductNotFoundException extends RuntimeException {
 	}
 
 	public ProductNotFoundException(String resourceName, String fieldName, Long fieldValue) {
-		super(String.format("%s NOT FOUND with  %s :  %d",resourceName,fieldName,fieldValue));
+		super(String.format("%s NOT FOUND with  %s :  %d", resourceName, fieldName, fieldValue));
 		this.resourceName = resourceName;
 		this.fieldName = fieldName;
 		this.fieldValue = fieldValue;
