@@ -1,0 +1,177 @@
+OOPS:
+
+Object / ref variable: placeholder for instance
+
+instance  : reference / memeory address
+
+class -- 
+
+Encapsulation -- Access Specifier --Public, private, protected, default/package access
+
+Variables:
+1) Local  -- within the method
+2) Instance -- within the class
+3) Class /static -- within the class but marked with static keyword
+
+DataTYpe:
+
+
+1) Value type
+     -- Predefined - 8 - int, byte, short, float, double, long,boolean , char
+     -- Userdefined   -- enum  , struct(Not supported by java)
+2) Reference Type
+     -- Predefined  -- String, Object(Supermost class in java)
+     -- Userdefined  -- Classes, Interface, Array...
+
+
+MVC 
+MOdel
+View
+Controller
+
+Constructor : A spl method
+Purpose : to initialise the instance variable of the class
+
+Default Constr -- Constr created by JVM
+
+------------------------------------------
+IO Streams(java.io
+
+Direction  of data:
+InputStream  -- data passed into the appln(read)
+OUtputStream -- print the data from the appln(write)
+
+TYpe of Data:
+1) Byte Stream --read and write happen in binary(InputStream,OUtputStream) 
+2) Character Stream  -- read and write happen as text(Reader, Writer)
+
+Source and Destination
+
+1) Buffer(memeory)
+2) File
+3) Harddisk
+4) Process
+5) Appln
+
+-----------------------------------
+Exception handling:
+
+Types of Exception
+
+1)Checked Exception -- compiler predicts this exception during compilation time
+2) UnChecked Exception -- compiler cannt recognized
+
+TO handle exception
+try  -- block  -- risky code
+catch -- block -- handler block
+finally  - block  -- closure 
+throw    -- keyword  -- 
+throws    -- keyword  -- declaration
+
+============================================
+Inheritance:
+
+Types of r/s
+1) IS-A r/s  -- parent & child r/s
+2) HAS-A r/s -- composition r/s
+
+Customer{}
+Bank
+{
+   Customer customer;   //has-a
+
+}
+
+
+ICICIBank extends Bank   // is-a
+
+Types of Inheritance:
+
+1) Single
+2) Multi-level
+3) Multiple  -- not supported in java
+4) Hybrid -- not supported in java
+5) Hyrarchial
+
+
+Abstraction: 
+1) Abstract Class
+2) Interface
+
+
+
+
+
+long  l = 10;
+int i =(int)l;
+
+String str= "11";
+int it = (int)str
+===========================
+Polymorphism: ONe Object exists in different form
+
+2 types
+Static/ compile time / Overloading
+Dynamic / Runtime /Overridding
+
+
+Overloading : same method name with different set of parameter
+
+3 Types of OL
+1) Constr OL
+2) Mehtod OL
+3) Operator  OL (NOT supported by Java)
+
+Overridding : same method name with same set of parameter
+
+===============================================
+
+Lambda Expression:
+
+-- Alternate way of defining a function
+
+public void add(int a , int b){
+    S.o.p(a+b)
+}
+
+
+()->{}     lambda expression
+
+c=a+b
+
+    c=(int a , int b)-> {
+         S.o.p(a+b)
+    }
+
+Functional Interface: An interface with Single Abstract Method(SAM), one or more default methods or static methods
+Default method == Implemented Method within the interface
+Static Method == can also have method implemented within the interface 
+
+Lambda Expression -- purpose is to reduce the boiler plate code
+
+interface Consumer{
+	public void	accept(T t);
+}
+
+
+class AA{
+	public void accept(List pr){
+
+	S.o.p(pr);
+	}
+
+}
+       (pr) -> S.o.p(pr);
+
+
+
+
+
+
+
+
+
+
+
+
+

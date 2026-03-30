@@ -1,0 +1,799 @@
+Spring:
+
+Framework 
+
+J2EE  - Servlet + jsp + EJB(Enterprise Java Bean)
+Rod Johnson
+
+-- Lightweight nature
+-- Loosely coupled
+-- Powerful abstraction
+-- Declarative Support(config file support -- xml, json, yaml, properties)
+
+Versions of Spring
+
+Spring 1.0 -- March 2004  -- Interface ,, Aware
+Spring 2.5 -- Declarative support using XML
+
+Spring 3.0 -- REST support
+           -- java based configuration 
+           -- SpEL(Spring Expression Language)
+
+
+Spring 4.0 -- JDK 8
+           -- Spring boot
+
+
+Spring 5.0  -- cloud features, async support (Reactive Programming)
+
+Spring 6.0  -- javax.  -- jarkata.  -- JDK 17
+
+Spring 7.0  -- JDK 25+
+
+=====================================
+Spring Modules
+
+Spring Core  -- purpose  -- to create instance for the class
+Spring web  -- web appln
+Spring REST -- Expose your function to other appln
+Spring Data -- DB
+Spring AOP (Aspect Oriented Programming) -- cross-cutting concerns
+Spring TEST 
+
+--------------------------------------
+2 Types of container
+
+1) BeanFactory  -- Interface
+2) ApplicationContext - Interface
+ApplicationContext extends BeanFactory
+
+
+5 classes implementing ApplicatioContext interface
+
+1) ClassPathXmlApplicationContext
+2) FileSystemXmlApplicationContext
+3) XmlWebApplicationContext
+4) AbstractApplicationContext
+5) AnnotationConfigApplicationContext
+
+==================================
+Dependency Injection:
+ injection the instance created by the container into the objects created by the developer in the appln
+
+IoC -- Inversion of Control
+
+ApplicationContext context = new ClassPathXmlApplicationContext("welcome.xml");
+		Welcome welc = (Welcome) context.getBean("wel");  // DI
+		System.out.println(welc.sayHello());
+
+
+  <bean id="wel" class="com.bnp.Welcome" />  
+
+===============================
+Setter Injection
+   <bean id="car" class="com.bnp.setter.Car">
+   		<property name="name" value="Honda" />   car.setName("Honda")
+   		<property name="model" value="City" />   car.setModel("City")
+   </bean>  
+
+Constructor Injection
+
+     new Car("BMW","X3")
+
+   <bean id="car" class="com.bnp.setter.Car">
+   		<constructor-arg name="name" value="BMW" />   
+   		<constructor-arg name="model" value="X3" />   
+   </bean>  
+
+==================================
+Wiring
+ <bean id="car" class="com.bnp.setter.Car">
+   		<property name="name" value="BMW" />   
+   		<property name="model" value="X5" />   
+   </bean>  
+
+  <bean id="user" class="com.bnp.setter.User">
+   		<property name="userName" value="Sai" />   
+   		<property name="car" ref="car" />   
+   </bean> 
+
+User user = (User)context.getBean("user");
+System.out.println(user.getUserName()+ " has a " + user.getCar().getName()+ " - " + user.getCar().getModel());
+
+AutoWiring:
+
+byName:
+===========
+
+public class User {
+	private String userName;
+	private Car car;
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+   <bean id="car" class="com.bnp.setter.Car">
+   		<property name="name" value="BMW" />   
+   		<property name="model" value="X6" />   
+   </bean>  
+
+  <bean id="user" class="com.bnp.setter.User" autowire="byName">
+   		<property name="userName" value="Sugam" />   
+   		
+   </bean>  
+</beans>
+
+byType:
+===========
+package com.bnp.setter;
+
+public class Car {
+	private String name;
+	private String model;
+
+package com.bnp.setter;
+
+public class User {
+	private String userName;
+	private Car car;
+
+ <bean id="mycar" class="com.bnp.setter.Car">
+   		<property name="name" value="BMW" />   
+   		<property name="model" value="X6" />   
+   </bean>  
+
+  <bean id="user" class="com.bnp.setter.User" autowire="byType">
+   		<property name="userName" value="Sugam" />   
+   		
+   </bean> 
+
+====================================================
+TO recognize the annoations:
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"> <!-- bean definitions here -->
+
+<context:annotation-config>  -- to recognize the annotations in the class
+
+
+---------------------------------------
+Field Injection
+
+@Autowired
+
+
+public class User {
+	private String userName;
+	@Autowired
+	private Car car;
+
+
+
+public class Car {
+	@Value("Mahindra")
+	private String name;
+	
+	@Value("scorpio")
+	private String model;
+
+
+	<context:annotation-config></context:annotation-config>
+   <bean id="car" class="com.bnp.setter.Car">
+   		 
+   </bean>  
+
+  <bean id="user" class="com.bnp.setter.User">
+   		 
+   		
+   </bean>  
+
+=============================================
+@Component  -- Spring Managed Beans
+
+@Configuration  -- used for config files
+
+-------------------------------------------
+Spring 3 types of Configuration
+
+1) XML based
+2) Annoation based 
+3) Java based 
+
+
+-----------------------------------------------
+
+Default Scope in Spring -- Singleton  - Only One instance will be made available throughout the application
+
+prototype   -- same instance name with different addresses
+
+=====================================================
+Spring LifeCycle Methods
+
+2 ways
+
+1) Interfaces -- InitializingBean(afterPropertiesSet()), DisposableBean(destroy())
+
+2) Annotations
+
+
+==========================================================
+SpringBoot
+
+-- WHy? To reduce the boilerplate code
+
+Create the SB proj
+1) Web appln 
+2) CLI
+
+Features
+
+1) Starter Dependencies
+2) Embedded Server(tomcat)
+3) AutoConfiguration
+4) NO XML configuration
+5) Production ready features(Actuator)
+
+@SpringBootApplication  = @Configuration + @EnableAutoConfiguration +@ComponentScan
+
+
+===============================================
+
+REST
+
+REpresentational State Transfer (REST) - architectural style
+
+
+Webservices:
+SOAP - protocol
+REST -- way of communication
+
+HTTP protocol has 
+1) request   -- header, body(payload)
+2) response  -- header, body(payload)
+
+Http Methods
+
+POST	- Create  - insert
+GET	- Read	  -- select
+PUT	- Update  -- update
+DELETE	- Delete  -- delete
+
+HTTP Status Code
+Informational responses (100 – 199)
+Successful responses (200 – 299)
+Redirection messages (300 – 399)
+Client error responses (400 – 499)
+Server error responses (500 – 599)
+
+DTO : Data Transfer Object
+
+Spring Security
+
+<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+========================================================================
+Actuator:
+	<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+management.endpoint.metrics.enabled=true
+management.endpoints.web.exposure.include=health,metrics
+
+http://localhost:8082/actuator/health
+http://localhost:8082/actuator/metrics
+
+----------------------------------------------
+Profiles:  Create application.properties file for diff. environment
+
+application.properties
+
+spring.application.name=sprbootdemo
+spring.profiles.active=prod
+
+application-dev.properties
+
+
+spring.application.name=sprbootdemo
+
+server.port=8082
+
+app.message=I m in DEV ENVIRONMENT - Deeps Laptop
+#Datasource
+spring.datasource.url=jdbc:mysql://localhost:3306/mydb
+spring.datasource.username=root
+spring.datasource.password=root
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+#Hibernate
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.show-sql=true
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+
+management.endpoint.metrics.enabled=true
+management.endpoints.web.exposure.include=health,metrics
+
+
+application-prod.properties
+
+spring.application.name=sprbootdemo
+
+server.port=8084
+
+app.message=I m in PROD ENVIRONMENT - Deeps Laptop
+
+ProductController
+
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+
+	@Autowired
+	private ProductService productService;
+	
+	@Value("${app.message}")
+	private String message;
+	
+	@GetMapping("/profiles")
+	public String  getProfileInfo(){
+		return message;
+
+	}
+
+}
+
+localhost:8082/api/products/profiles
+localhost:8084/api/products/profiles
+
+
+----------------------------------------------------
+
+Docker:
+
+-- Platform for creating containers 
+
+Container  -- Running Image
+Image  -- packed application -- read-only template.
+
+VM Vs Containers
+
+VM contains appln+ config files + dependencies +OS
+Container contains appln+ config files + dependencies 
+
+
+----------------------------
+docker login
+docker logout
+
+
+docker images
+
+docker ps   - to view all running containers
+
+docker pull hello-world
+docker run hello-world    -- to run the image / to create the container
+
+docker rm containername / cont id  - to remove the container
+docker rmi imagename/ imageid       - to remove the image
+
+
+docker run --name myhelloworld hello-world    -- to name the container
+
+docker run --name myhello hello-world   -- to pull and execute the image if the image doesnt exist locally
+
+
+docker logs myhello
+docker inspect myhello
+
+Port Mapping
+docker run --name myngnix -p 8088:80 suryasivaraj/ngnix
+
+http://localhost:8088/
+
+docker run --name myngnix -p 8088:80 -d suryasivaraj/ngnix   -- -d for detatched mode
+
+
+---------------------------
+To create your application Image  use Dockerfile
+
+Dockerfile commands are instructions used to build a Docker image, with each command creating a new, read-only layer in the image. Commands are typically written in uppercase by convention, though it is not strictly required
+
+
+package com.bnp;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		System.out.println("I am Created for BNP Batch 7");
+		System.out.println("Testing Docker ...");
+
+	}
+
+}
+
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.bnp</groupId>
+	<artifactId>docktest</artifactId>
+	<version>1.0</version>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>17</source>
+					<target>17</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.3.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.bnp.MainClass</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+		<finalName>testd</finalName>
+	</build>
+</project>
+
+Dockerfile
+---------------
+FROM openjdk:17.0.2-jdk
+
+WORKDIR /app
+
+COPY target/testd.jar .
+
+CMD ["java","-jar","testd.jar"]
+
+TO RUN:
+-----------
+D:\A Bnp7\docktest>docker build -t javaapp .
+D:\A Bnp7\docktest>docker run --name testdcontr javaapp
+
+--------------------------------
+Docker-compose:
+
+-- When u have multi-container environment -- Container Orchestration
+
+Create docker-compose.yaml, in that create services,volumes, networks
+
+docker-compose up     ---cmd to run the docker-compose file
+
+============================================
+
+Kunernetes(K8)
+
+https://minikube.sigs.k8s.io/docs/start/?arch=%2Fwindows%2Fx86-64%2Fstable%2F.exe+download
+
+C:\Users\eagle>minikube start driver=docker
+
+Cluster -- Group of nodes
+Node  -- physical m/ / VM 
+
+2 Types of NOde: 
+1) master node
+2) Worker node
+
+Why k8s?
+
+1) Self Healing
+2) Auto Scaling
+3) Zero downtime deployements
+4) LOad Balancers
+5) Config file, secrets
+6) Microservices appln support 
+
+minikube has 1 cluster(1 master + 1 worker node)
+
+
+Master Node contain
+
+1) Api Server -- entry point for all the request
+2) Controller Manager -- 
+3) Scheduler 
+4) etcd server -- brain of k8
+
+Worker Node:
+POD : A smallest deployable unit where one or more containers can run
+Container : Running Image
+Image : Read only template of your appln
+Container Runtime : Docker Engine
+Kubelet  -- monitor the pods and it give info to the master node
+
+
+kubectl  -- CLI
+
+--------------------------------------------
+
+POD : A smallest deployable unit where one or more containers can run
+Service: TO expose the pod through an IP address
+
+Volumn:
+
+PV - Persistant Volumn (available within the cluster)
+PVC - Persistant Volumn Claim(Available outside the cluster)
+
+ConfigMap  -- text file to store the configration of our appln
+Secrets  -- text file to store all the credentials in base 64 encoding format.
+
+Replica Set -- backup of the pod
+
+External Service : DNS
+Ingress: Accept the http request and pass it the service
+
+
+===================
+
+minikube start driver=docker
+
+minikube status
+
+-----------------------------------
+kubectl get nodes
+kubectl get pods
+kubectl get services  / kubectl get svc
+
+kubectl get deployments
+kubectl get namespaces
+
+------------------------------------
+docker pull suryasivaraj/ngnix
+kubectl run myngnix-pod --image=suryasivaraj/ngnix
+kubectl get pods
+kubectl describe pod myngnix-pod
+kubectl logs myngnix-pod
+minikube service myngnix-pod
+kubectl delete pod myngnix-pod
+
+---------------------------------------
+Types of Services:
+
+ClusterIP( default service type) : It exposes the Service on a stable, internal cluster IP address, making it only reachable from within the cluster. 
+
+NodePort: exposes the Service on a static port. on each Node's IP address in the cluster
+
+LoadBalancer:exposes the Service externally using a cloud provider's load balancer
+
+ExternalName : special type that maps a Service to an external DNS name 
+
+--------------------------------------------
+
+docker pull suryasivaraj/ngnix
+kubectl create deployment ngnix-deployment --image=suryasivaraj/ngnix
+kubectl get pods
+kubectl get services
+kubectl expose deployment ngnix-deployment --port=89 --target-port=80 --type=NodePort
+C:\Users\eagle>kubectl get services
+NAME               TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+kubernetes         ClusterIP   10.96.0.1       <none>        443/TCP        83m
+ngnix-deployment   NodePort    10.110.39.156   <none>        89:31698/TCP   6s
+
+
+C:\Users\eagle>minikube ip
+192.168.49.2
+
+
+C:\Users\eagle>minikube service ngnix-deployment
+┌───────────┬──────────────────┬─────────────┬───────────────────────────┐
+│ NAMESPACE │       NAME       │ TARGET PORT │            URL            │
+├───────────┼──────────────────┼─────────────┼───────────────────────────┤
+│ default   │ ngnix-deployment │ 89          │ http://192.168.49.2:31698 │
+└───────────┴──────────────────┴─────────────┴───────────────────────────┘
+* Starting tunnel for service ngnix-deployment.
+┌───────────┬──────────────────┬─────────────┬────────────────────────┐
+│ NAMESPACE │       NAME       │ TARGET PORT │          URL           │
+├───────────┼──────────────────┼─────────────┼────────────────────────┤
+│ default   │ ngnix-deployment │             │ http://127.0.0.1:52549 │
+└───────────┴──────────────────┴─────────────┴────────────────────────┘
+* Opening service default/ngnix-deployment in default browser...
+
+
+C:\Users\eagle>kubectl scale deployments ngnix-deployment --replicas=3
+deployment.apps/ngnix-deployment scaled
+
+C:\Users\eagle>kubectl get pods
+NAME                                READY   STATUS    RESTARTS   AGE
+ngnix-deployment-58f7b8fcbd-dhpgr   1/1     Running   0          25s
+ngnix-deployment-58f7b8fcbd-nfcgx   1/1     Running   0          21m
+ngnix-deployment-58f7b8fcbd-xkz4s   1/1     Running   0          25s
+
+-------------------------------------------------------------
+kubectl delete deployment ngnix-deployment
+kubectl delete service ngnix-deployment
+
+--------------------------------------------------------------
+Deploying the spring boot appln in k8
+
+
+D:\A Bnp7\sprbootdemo>docker build -t pms-app:latest .
+D:\A Bnp7\sprbootdemo>minikube image load pms-app:latest
+
+D:\A Bnp7\sprbootdemo>kubectl apply -f k8s
+
+kubectl get deployments
+kubectl get pods
+kubectl get svc
+
+C:\Users\eagle>minikube service pms-service --url
+http://127.0.0.1:54534
+
+In Postman
+
+http://127.0.0.1:54534/api/products
+http://127.0.0.1:54534/api/products/addProd
+
+http://127.0.0.1:54534/api/products/1
+
+=================================================================
+
+Jenkins: Automation Tool for Devops
+
+CI/CD stands for Continuous Integration and Continuous Delivery (or Deployment)
+
+
+eagle@DESKTOP-OOGI82A MINGW64 /d/A Bnp7/sprbootdemo
+$ git init
+$ git branch -M main
+$ git remote add origin https://github.com/chntraining/k8bnp7.git
+$ git status
+$ git add .
+$ git commit -m "first commit from BNP7"
+$ git push -u origin main
+
+-------------------------
+
+Configure Jenkins'
+
+1) Credentials 
+     Jenkins -> Manage Jenkins -> Credentials  -> Add Credentials  -> select Username with Password 
+    
+     a) Cred for jenkins, git, docker
+
+
+2)  Tools
+     Jenkins -> Manage Jenkins -> Tools 
+
+    JDK  --  Java17
+	C:\Program Files\Java\jdk-17
+
+    Maven  -- Maven
+	D:\apache-maven-3.9.14
+
+    Git  -- Default
+            C:\Program Files\Git\bin\git.exe
+
+
+
+3) Install Plugins for git, maven, docker
+
+
+======================================================
+
+Pipeline Script : created using Groovy language
+
+pipeline {
+    agent any // Specifies where the pipeline will run
+    tools{
+	jdk 'Java17'
+        maven 'Maven'
+    }
+    stages {
+        stage('Checkout the code from github') {
+            steps {
+                echo 'Checkout the code from github...'
+                git branch: 'main', credentialsId: 'gitcred', url: 'https://github.com/chntraining/k8bnp7.git'
+            }
+        }
+        stage('Build the application') {
+            steps {
+                echo 'Building the application...' 
+                bat 'mvn clean package'
+            }
+        }
+        stage('Build the Docker Image') {
+            steps {
+                echo 'Building Docker Image ....'
+                bat 'docker build -t pms-app:latest .'
+            }
+        }
+        
+        stage('Start the minikube') {
+            steps {
+		echo 'Deleting Minikube'
+		bat 'minikube delete'
+
+                echo 'Starting Minikube...'
+                bat 'minikube start'
+            }
+        }
+
+        stage('Load the image to minikube') {
+            steps {
+                echo 'Load the image to minikube...'
+                bat 'minikube image load pms-app:latest'
+            }
+        }
+	stage('Deploy to k8') {
+            steps {
+                echo 'Deploy to k8...'
+                bat 'kubectl apply -f k8s/'
+
+		echo 'Checking Deployments...'
+		bat 'kubectl get deployments'
+
+		echo 'Checking for PODS...'
+		bat 'kubectl get pods'
+
+		echo 'Checking for Services'
+		bat 'kubectl get svc'
+            }
+        }
+
+	stage('Wait for the pods to be ready ') {
+            steps {
+                echo 'Wait for the pods to be ready...'
+                bat 'kubectl wait --for=condition=Ready pods --all --timeout=180s'
+
+            }
+        }
+	stage('Access the application') {
+            steps {
+                echo 'Access the application using URL...'
+                bat 'minikube service pms-service --url'
+            }
+        }
+    }
+    
+    post {
+        always {
+            echo 'This will always run after the pipeline finishes, regardless of status.'
+        }
+        success {
+           
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed, sending alert...'
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
